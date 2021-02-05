@@ -51,7 +51,7 @@ module.exports = {
      * 设置生成的 HTML 中 <link> 和 <script> 标签的 crossorigin 属性
      * 默认：undefined
      */
-    crossorigin: undefined,
+    // crossorigin: undefined,
     /**
      * 在生成的 HTML 中的 <link> 和 <script> 标签上启用 Subresource Integrity (SRI)
      * 默认：false
@@ -121,7 +121,6 @@ module.exports = {
     /**
      * 配置webpack(链式操作)
      */
-    // chainWebpack:{},
     /**
      * css配置
      * css.modules:

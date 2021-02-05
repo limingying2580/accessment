@@ -1,5 +1,5 @@
 import request from "@/utils/request.js"
-import axios from 'axios'
+import axios from "@/utils/request.js";
 let config={
     headers: {
         'Content-Type': 'application/json'

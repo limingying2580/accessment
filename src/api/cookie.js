@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-const util = {
+const util= {
     cookies: {
     },
 }

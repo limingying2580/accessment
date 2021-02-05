@@ -1,9 +1,9 @@
 import axios from "axios";
-import router from "@/router"
+import router from "@/router/index.ts"
 import { ElMessage} from 'element-plus';
 
-axios.defaults.timeout = 3000; // 请求超时
-axios.defaults.baseURL = process.env.BASE_API; // 增加请求默认路径前缀
+axios.create.timeout = 3000; // 请求超时
+axios.create.baseURL = process.env.BASE_API; // 增加请求默认路径前缀
 
 // 请求拦截
 axios.interceptors.request.use(config => {
@@ -37,7 +37,7 @@ axios.interceptors.response.use(response => {
         let code = data.code
         if (code === -1) {
             // -1 token过期
-            router.push({path: '/login'})
+            this.$router.push({path: '/login'})
         } else if (code === 1) {
             //  1 成功
             return response

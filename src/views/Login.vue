@@ -71,7 +71,7 @@ export default {
         if(res.data.value.token) {
           this.$message({message: '登录成功',type: 'success'});
           util.cookies.setCookie('o-token',res.data.value.token);
-          this.$router.push({ path:'/list'})
+          this.$router.push({ path:'/List'})
         }
         else {
           this.$message({message: res.data.message,type: 'error'});
