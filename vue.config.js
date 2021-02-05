@@ -6,7 +6,6 @@
 // const resolve = (dir) => path.join(__dirname, dir);
 
 module.exports = {
-    // baseUrl:"",//从 Vue CLI 3.3 起已弃用，使用publicPath
     /**
      * 设置项目的基路径,设置process.env.BASE_URL
      * 例如：http://192.168.43.243:8080  ==>  http://192.168.43.243:8080/test
@@ -25,12 +24,12 @@ module.exports = {
      * 放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录
      * 默认：''
      */
-    assetsDir: '',
+    assetsDir: 'static',
     /**
      * 指定生成的 index.html 的输出路径 (相对于 outputDir)
      * 默认：'index.html'
      */
-    indexPath: 'index.html',
+    // indexPath: 'index.html',
     /**
      * 生成的静态资源在它们的文件名中包含了 hash 以便更好的控制缓存
      * 例如：true==>app.e2713bb0.css        false==>app.css
@@ -62,6 +61,13 @@ module.exports = {
      * 配置webpack(简单配置)
      */
     chainWebpack: config => {
+        config
+            .plugin('html')
+            .tap(args => {
+                args[0].title = '测评中台'
+
+                return args
+            })
         config.resolve.extensions
             .add('ts')
             .add('tsx');
@@ -124,9 +130,9 @@ module.exports = {
      * css.loaderOptions:
      */
     css: {
-        modules: false,
+        requireModuleExtension: false,
         extract: true,
-        sourceMap: true,
+        sourceMap: false,
         loaderOptions: {
             //配置全局scss变量或者mixin....
             sass: {
@@ -155,7 +161,7 @@ module.exports = {
      */
     devServer: {
         open: false, //配置自动启动浏览器
-        hot: true, // 热模块替换，就是热更新页面
+        hot: false, // 热模块替换，就是热更新页面
         compress: true, // 为所服务的一切启用gzip压缩
         host: '0.0.0.0', // 指定要使用的主机。默认情况下这是localhost。
         port: 65533, // 端口号，
@@ -165,6 +171,18 @@ module.exports = {
         // proxy:"url地址",// 前端应用和后台API服务没有运行在一个主机上，设置此项在开发环境下代理到API服务器。
         // proxy: 'http://localhost:8080'  // 配置跨域处理,只有一个代理
         //配置多个跨域
+
+        https: false,
+        http2: false,
+        writeToDisk: false,
+        /* refresh pages manually when changes */
+        lazy: false,
+        watchContentBase: false,
+        liveReload: false,
+        /* use gzip for static resources */
+        disableHostCheck: false,
+        /* add response headers */
+        headers: {},
         proxy: {
             // 配置不同的后台API地址
             '/api': {
@@ -175,9 +193,9 @@ module.exports = {
                     '^/api' : '',
                 },
             },
-            '/foo': {
-                target: '<other_url>',
-            },
+            // '/foo': {
+            //     target: '<other_url>',
+            // },
         },
     },
     // parallel:require('os').cpus().length > 1,

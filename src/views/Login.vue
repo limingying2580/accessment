@@ -2,29 +2,31 @@
   <div class="about">
     <div class="bg_picture">
       <img src="../assets/img/background.jpg" alt="">
-    <div class="background">
-      <div class="login_left"><img src="../assets/img/loginleft.jpg" alt=""></div>
-      <div class="login_right">
-        <div class="logo"><img src="../assets/img/logo.jpg" alt=""></div>
-        <div class="logo_title">哎呀，在试错，努力奋斗呀！</div>
-        <el-form :model="userInfo" :rules="rules" ref="userInfo" label-width="0" class="demo-ruleForm">
-          <el-form-item  prop="name" class="el-input">
-            <el-input v-model="userInfo.name" placeholder="请输入账号"></el-input>
-          </el-form-item>
-          <el-form-item  prop="password" class="el-input">
-            <el-input type="password" v-model="userInfo.password" placeholder="请输入密码"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="submitForm('userInfo')" class="submit_button">提交</el-button>
-          </el-form-item>
-        </el-form>
+      <div class="background">
+        <div class="login_left"><img src="../assets/img/loginleft.jpg" alt=""></div>
+        <div class="login_right">
+          <div class="logo"><img src="../assets/img/logo.jpg" alt=""></div>
+          <div class="logo_title">哎呀，在试错，努力奋斗呀！</div>
+          <el-form :model="userInfo" :rules="rules" ref="userInfo" label-width="0" class="demo-ruleForm">
+            <el-form-item  prop="name" class="el-input">
+              <el-input v-model="userInfo.name" placeholder="请输入账号"></el-input>
+            </el-form-item>
+            <el-form-item  prop="password" class="el-input">
+              <el-input type="password" v-model="userInfo.password" placeholder="请输入密码"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="submitForm('userInfo')" class="submit_button">提交</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
       </div>
-    </div>
     </div>
   </div>
 </template>
 
 <script>
+import {login} from "@/api/api";
+import util from '../api/cookie.js'
 export default {
   data() {
     return {
@@ -43,17 +45,41 @@ export default {
       }
     };
   },
+  created() {
+    let name = util.cookies.getCookie("name");
+    let password = util.cookies.getCookie("password");
+    if (name && password) {
+      this.userInfo.account = name;
+      this.userInfo.password = password;
+    }
+  },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          this.login()
         } else {
           console.log('error submit!!');
           return false;
         }
       });
     },
+    async login(){
+      let params = this.userInfo
+      login(params).then((res) =>{
+        // console.log(res)
+        if(res.data.value.token) {
+          this.$message({message: '登录成功',type: 'success'});
+          util.cookies.setCookie('o-token',res.data.value.token);
+          this.$router.push({ path:'/list'})
+        }
+        else {
+          this.$message({message: res.data.message,type: 'error'});
+        }
+      }).catch((err) =>{
+        console.log(err);
+      })
+    }
   }
 }
 </script>

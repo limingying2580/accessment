@@ -1,14 +1,26 @@
 import axios from "axios";
+import router from "@/router"
 import { ElMessage} from 'element-plus';
 
 axios.defaults.timeout = 3000; // 请求超时
-axios.defaults.baseURL = "/api"; // 增加请求默认路径前缀
+axios.defaults.baseURL = process.env.BASE_API; // 增加请求默认路径前缀
 
 // 请求拦截
-axios.interceptors.request.use(
-    config => {
+axios.interceptors.request.use(config => {
         // 1. 这个位置就请求前最后的配置
         // 2. 当然你也可以在这个位置 加入你的后端需要的用户授权信息
+        //发请求前做的一些处理，数据转化，配置请求头，设置token,设置loading等，根据需求去添加
+        //  config.data = JSON.stringify(config.data); //数据转化,也可以使用qs转换
+        // config.headers = {
+        //   'Content-Type':'application/json' //配置请求头
+        // }
+//注意使用token的时候需要引入cookie方法或者用本地localStorage等方法，推荐js-cookie
+//    const token = getCookie('名称');//这里取token之前，你肯定需要先拿到token,存一下
+//    if(token){
+//       config.params = {'token':token} //如果要求携带在参数中
+//       config.headers.token= token; //如果要求携带在请求头中
+//     }
+//   console.log(config)
         return config;
     },
     error => {
@@ -17,14 +29,24 @@ axios.interceptors.request.use(
 );
 
 // 响应拦截
-axios.interceptors.response.use(
-    response => {
+axios.interceptors.response.use(response => {
         // 请求成功
         // 1. 根据自己项目需求定制自己的拦截
         // 2. 然后返回数据
-        return response.data;
-    },
-    error => {
+        let data = response.data
+        let code = data.code
+        if (code === -1) {
+            // -1 token过期
+            router.push({path: '/login'})
+        } else if (code === 1) {
+            //  1 成功
+            return response
+        } else {
+            //  0 失败
+            // 直接弹出提示框
+            return response
+        }
+    }, error => {
         // 请求失败
         if (error && error.response) {
             switch (error.response.status) {
@@ -77,5 +99,6 @@ axios.interceptors.response.use(
         /***** 处理结束 *****/
         //如果不需要错误处理，以上的处理过程都可省略
         return Promise.resolve(error.response)
-    }
-);
+    })
+
+export default axios
