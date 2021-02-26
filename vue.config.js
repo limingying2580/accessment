@@ -64,13 +64,11 @@ module.exports = {
         config
             .plugin('html')
             .tap(args => {
-                args[0].title = '测评中台'
-
+                args[0].title = '哈哈，测评小练习'
                 return args
             })
-        config.resolve.extensions
-            .add('ts')
-            .add('tsx');
+            // .add('ts')
+            // .add('tsx');
     },
     // chainWebpack: (config) => {
     //   // 添加别名

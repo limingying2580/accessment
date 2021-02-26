@@ -1,27 +1,21 @@
-import { RouteRecordRaw } from 'vue-router'
-const _nav: Array<RouteRecordRaw> = [
-    // {
-    //     // icon: 'el-icon-location',
-    //     name: '测评中心',
-    //     path:'List',
-    //     component: List
-    //     // children: [
-    //     //     {
-    //     //         title: '测评信息',
-    //     //         path: '/testCenter/testInfo',
-    //     //         compo: List
-    //     //     }
-    //     //     ]
-    // },
+// lazy-loaded when the route is visited.
+const List =() =>import('@/views/List.vue')
+
+// two-level navigation
+const _nav = [
     {
-        path: 'List',
-        component: () => import(/* webpackChunkName: "views.login" */ '@/views/List.vue'),
-        name: '测评中心',
-        meta: {
-            title: '测评信息',
-            noCache: true
-        }
-    }
+        // icon: 'el-icon-edit-outline',
+        title: '测评中心',
+        children: [
+            {
+                title: '测评列表',
+                path: 'List',
+                compo: List,
+                hide:true,
+            },
+        ],
+    },
 ]
+
 
 export default _nav

@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import _nav from "@/router/navigator";
+// import _nav from "@/router/navigator";
 import util from '@/api/cookie'
 export default {
   data() {
@@ -107,9 +107,9 @@ export default {
       console.log("open", key, keyPath);
     },
   },
-  created() {
-    this.menuList = _nav
-  },
+  // created() {
+  //   this.menuList = _nav
+  // },
   mounted() {
     this.username = '超级管理员'
     this.subTitle = '子标题'

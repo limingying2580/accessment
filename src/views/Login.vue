@@ -25,8 +25,9 @@
 </template>
 
 <script>
-import {login} from "@/api/api";
-import util from '../api/cookie.js'
+import {login} from "@/api/api.js";
+import {ElMessage} from "element-plus"
+// import util from '../api/cookie.js'
 export default {
   data() {
     return {
@@ -45,14 +46,14 @@ export default {
       }
     };
   },
-  created() {
-    let name = util.cookies.getCookie("name");
-    let password = util.cookies.getCookie("password");
-    if (name && password) {
-      this.userInfo.account = name;
-      this.userInfo.password = password;
-    }
-  },
+  // created() {
+  //   let name = util.cookies.getCookie("name");
+  //   let password = util.cookies.getCookie("password");
+  //   if (name && password) {
+  //     this.userInfo.account = name;
+  //     this.userInfo.password = password;
+  //   }
+  // },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -64,17 +65,23 @@ export default {
         }
       });
     },
-    async login(){
+   async login(){
       let params = this.userInfo
       login(params).then((res) =>{
         // console.log(res)
-        if(res.data.value.token) {
-          this.$message({message: '登录成功',type: 'success'});
-          util.cookies.setCookie('o-token',res.data.value.token);
-          this.$router.push({ path:'/List'})
+        if(res.data.value) {
+          ElMessage.success({
+            message: '登录成功',
+            type: 'success'
+          });
+          // util.cookies.setCookie('o-token',res.data.value.token);
+          this.$router.push({ path:'/list'})
         }
         else {
-          this.$message({message: res.data.message,type: 'error'});
+          ElMessage.success({
+            message: res.data.message,
+            type: 'error'
+          });
         }
       }).catch((err) =>{
         console.log(err);

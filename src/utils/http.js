@@ -1,4 +1,4 @@
-import request from "@/utils/request.js"
+// import request from "@/utils/request.js"
 import axios from "@/utils/request.js";
 let config={
     headers: {
@@ -13,7 +13,7 @@ const http = {
             url: url,
         }
         if(params) config.params = params
-        return request(config)
+        return axios(config)
     },
     post(url,params){
         const config = {
@@ -22,7 +22,7 @@ const http = {
             config: config,
         }
         if(params) config.data = params
-        return request(config)
+        return axios(config)
     },
     postFile(url,params){
         const config = {
@@ -30,7 +30,7 @@ const http = {
             url: url,
         }
         if(params) config.data = params
-        return request(config)
+        return axios(config)
     },
     upPic(url,params){
         const config = {
@@ -38,7 +38,7 @@ const http = {
             url: 'https://files.ondemandcn.net/pic/ups',
         }
         if(params) config.data = params
-        return request(config)
+        return axios(config)
     },
     upVideo(url,params,onUploadProgress,cancel){
         const config = {
@@ -50,7 +50,7 @@ const http = {
             })
         }
         if(params) config.data = params
-        return request(config)
+        return axios(config)
     },
 }
 

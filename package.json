@@ -13,6 +13,7 @@
     "core-js": "^3.6.5",
     "element-plus": "^1.0.2-beta.30",
     "js-cookie": "^2.2.1",
+    "ts-node": "^9.1.1",
     "vue": "^3.0.0",
     "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.3",
@@ -27,7 +28,7 @@
     "@vue/compiler-sfc": "^3.0.0",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
-    "typescript": "~3.9.3"
+    "typescript": "^3.9.7"
   },
   "browserslist": [
     "> 1%",
